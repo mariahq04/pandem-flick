@@ -1,2 +1,0 @@
-# pandem-flick
-search component
