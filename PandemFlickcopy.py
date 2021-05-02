@@ -43,7 +43,7 @@ async def reload(ctx, extension):
 # "calling !refresh updates all loaded cogs incase code has been chaanged"
 @client.command(name='refresh', hidden=True)
 async def refresh(ctx):
-    for filename in os.listdir('/Users/jasmine/PycharmProjects/SearchComponent/cogscopy'):
+    for filename in os.listdir('C:/Users/ahmed/Documents/GitHub/pandem-flick/cogscopy'):
         if filename.endswith('.py'):
             client.unload_extension(f'cogscopy.{filename[:-3]}')
             client.load_extension(f'cogscopy.{filename[:-3]}')
@@ -51,7 +51,8 @@ async def refresh(ctx):
 
 
 # loop that initializes cogs
-for filename in os.listdir('/Users/jasmine/PycharmProjects/SearchComponent/cogscopy'):
+
+for filename in os.listdir('C:/Users/ahmed/Documents/GitHub/pandem-flick/cogscopy'):
     if filename.endswith('.py'):
         client.load_extension(f'cogscopy.{filename[:-3]}')
 
