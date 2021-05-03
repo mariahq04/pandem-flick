@@ -1,7 +1,10 @@
 import discord
 import os
+
+from pymongo import MongoClient
+
 from BOT_TOKENcopy import TOKEN
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 # if the '@' is first, bot will register the message as a command
 client = commands.Bot(command_prefix='@')
@@ -48,6 +51,28 @@ async def refresh(ctx):
             client.unload_extension(f'cogscopy.{filename[:-3]}')
             client.load_extension(f'cogscopy.{filename[:-3]}')
     await ctx.send("Refreshed all cogs.")
+
+
+@client.event
+async def on_ready():
+    clear_cache.start()
+
+
+@tasks.loop(hours=24)
+async def clear_cache():
+    await client.wait_until_ready()
+
+    cluster = MongoClient(
+        "mongodb+srv://pfAdmin:ZZ68174@cluster0.pdcfd.mongodb.net/PandemFlickBot?retryWrites=true&w=majority")
+    db = cluster["PandemFlickBot"]
+    collection = db["movies"]
+
+    if not client.is_closed():
+        collection.delete_many({})
+        ctx = client.get_channel(828728522029400068)
+        print("Cache cleared.")
+
+
 
 
 # loop that initializes cogs
